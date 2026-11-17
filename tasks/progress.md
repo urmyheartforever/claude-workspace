@@ -70,3 +70,8 @@
   - `portfolio/vercel.json`: buildCommand `node ../scripts/build-config.mjs` → 배포 때 config.js 생성
   - `vercel link`로 폴더 연결 → `.vercel/` 생성, `.env.local`에 VERCEL_OIDC_TOKEN 추가됨, `.gitignore`에 `.env*` 추가됨 → `!.env.example` 보완
   - 확인: 미리보기 빌드 로그 OK → main 머지(9fe336c) → 실제 사이트에서 방명록 목록 표시, config.js 200, 개인·설정 파일 404 (vercel.json만 200, 비밀 없음)
+- 방명록 삭제 기능 + 메인 메뉴 GUESTBOOK — `guestbook-delete` 브랜치 → main
+  - `supabase/message_delete.sql`(사용자 실행): `delete_message(id, 비밀번호)` 함수, 표 직접 삭제는 계속 401
+  - 화면: [수정] 옆 [삭제] → "삭제할까요?" + 비밀번호 + 삭제/취소, 메뉴에 Guestbook, 휴대폰 메뉴 크기 조정 (백업: index.html.guestbook-v2.bak)
+  - 테스트: Edge 자동 조작 11개 (메뉴 이동 1건 FAIL은 테스트 스크립트의 -0 값 문제로 확인 → 실제 정상), 테스트 글은 만들고 바로 삭제됨
+  - 390px 모바일 에뮬레이션: 가로 넘침 0px → 예전 "모바일 오른쪽 잘림"은 캡처 도구 문제였음

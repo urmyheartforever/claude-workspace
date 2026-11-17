@@ -184,7 +184,21 @@
   .gb-btn.ghost { border-color: var(--line); color: var(--muted); }
   .gb-btn.ghost:hover:not(:disabled) { background: transparent; color: var(--text); border-color: var(--muted); }
   .gb-body { min-width: 0; }
-  .gb-tools { margin-top: 10px; }
+  .gb-tools { margin-top: 10px; display: flex; gap: 16px; }
+  .gb-link.danger:hover { color: #e08a7a; }
+  .gb-del { display: grid; gap: 10px; margin-top: 10px; }
+  .gb-del .q { font-size: 14px; color: var(--text); }
+  .gb-btn.danger { color: #e08a7a; border-color: #e08a7a; }
+  .gb-btn.danger:hover:not(:disabled) { background: #e08a7a; color: var(--bg); }
+  .gb-del input {
+    width: 180px; background: var(--bg-raise); color: var(--text); border: 1px solid var(--line);
+    border-radius: 0; padding: 10px 14px; font: inherit; font-size: 14px;
+  }
+  .gb-del input:focus { outline: none; border-color: #e08a7a; }
+  .gb-del input::placeholder { color: var(--faint); }
+  .gb-del .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .gb-del .st { font-size: 13px; color: var(--muted); }
+  .gb-del .st.err { color: #e08a7a; }
   .gb-link {
     background: none; border: 0; padding: 0; cursor: pointer; font: inherit;
     font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint);
@@ -231,7 +245,10 @@
   /* 휴대폰 */
   @media (max-width: 560px) {
     .wrap { padding: 0 16px; }
-    nav ul { gap: 18px; }
+    nav ul { gap: 12px; }
+    nav ul.label { font-size: 11px; letter-spacing: 0.08em; }
+    nav .logo { font-size: 18px; white-space: nowrap; }
+    nav .wrap { gap: 12px; }
     .hero { padding: 72px 0 64px; }
     .hero .lead { font-size: 16px; padding-left: 16px; }
     .kpi { padding: 28px 12px 24px 16px; }
@@ -246,7 +263,7 @@
     .gb-form { grid-template-columns: 1fr; }
     .gb-form button { width: 100%; }
     .gb-item { grid-template-columns: 1fr; gap: 8px; }
-    .gb-edit input { width: 100%; }
+    .gb-edit input, .gb-del input { width: 100%; }
   }
 </style>
 </head>
@@ -259,6 +276,7 @@
       <li><a href="#about">About</a></li>
       <li><a href="#career">Career</a></li>
       <li><a href="#contact">Contact</a></li>
+      <li><a href="#guestbook">Guestbook</a></li>
     </ul>
   </div>
 </nav>
@@ -401,7 +419,7 @@
     <form class="gb-form" id="gb-form" novalidate>
       <input id="gb-name" name="name" type="text" maxlength="30" placeholder="이름" autocomplete="name" required aria-label="이름">
       <textarea id="gb-content" name="content" maxlength="500" rows="1" placeholder="남기실 말씀 (500자 이내)" required aria-label="메시지"></textarea>
-      <input id="gb-password" name="password" type="password" minlength="4" maxlength="72" placeholder="비밀번호 (수정용)" autocomplete="new-password" required aria-label="수정용 비밀번호">
+      <input id="gb-password" name="password" type="password" minlength="4" maxlength="72" placeholder="비밀번호 (수정·삭제용)" autocomplete="new-password" required aria-label="수정·삭제용 비밀번호">
       <button type="submit" id="gb-submit">남기기</button>
     </form>
     <p class="gb-status" id="gb-status" role="status" aria-live="polite"></p>
@@ -536,7 +554,11 @@
       editBtn.type = 'button';
       editBtn.setAttribute('aria-label', r.name + '님의 글 수정');
       editBtn.addEventListener('click', function () { openEditor(body, r); });
-      tools.appendChild(editBtn);
+      var delBtn = el('button', 'gb-link danger', '삭제');
+      delBtn.type = 'button';
+      delBtn.setAttribute('aria-label', r.name + '님의 글 삭제');
+      delBtn.addEventListener('click', function () { openDelete(body, r); });
+      tools.appendChild(editBtn); tools.appendChild(delBtn);
       body.appendChild(msg); body.appendChild(tools);
 
       li.appendChild(who); li.appendChild(body);
@@ -582,6 +604,43 @@
       });
     }
 
+    // 삭제 확인 칸 열기 (글 아래에 "정말 삭제할까요?" + 비밀번호)
+    function openDelete(body, r) {
+      var tools = body.querySelector('.gb-tools');
+      var box = el('form', 'gb-del');
+      var q = el('p', 'q', '이 글을 삭제할까요? 삭제하면 되돌릴 수 없어요.');
+      var row = el('div', 'row');
+      var pw = el('input'); pw.type = 'password'; pw.maxLength = 72; pw.placeholder = '작성 때 비밀번호';
+      pw.autocomplete = 'current-password'; pw.setAttribute('aria-label', '삭제 비밀번호 확인');
+      var del = el('button', 'gb-btn danger', '삭제'); del.type = 'submit';
+      var cancel = el('button', 'gb-btn ghost', '취소'); cancel.type = 'button';
+      var st = el('span', 'st'); st.setAttribute('role', 'status');
+      row.appendChild(pw); row.appendChild(del); row.appendChild(cancel); row.appendChild(st);
+      box.appendChild(q); box.appendChild(row);
+
+      tools.replaceWith(box);
+      pw.focus();
+
+      function close() { box.replaceWith(tools); }
+      function say(t, err) { st.textContent = t; st.classList.toggle('err', !!err); }
+
+      cancel.addEventListener('click', close);
+      box.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!pw.value) { say('비밀번호를 입력해 주세요.', true); pw.focus(); return; }
+        del.disabled = cancel.disabled = true;
+        say('확인하는 중…');
+        rpc('delete_message', { p_id: r.id, p_password: pw.value })
+          .then(function (ok) {
+            if (ok === true) { setStatus('글을 삭제했어요.'); return load(); }
+            say('비밀번호가 맞지 않아요. (비밀번호 없이 쓴 예전 글은 삭제할 수 없어요)', true);
+            pw.value = ''; pw.focus();
+          })
+          .catch(function () { say('삭제하지 못했어요. 잠시 후 다시 시도해 주세요.', true); })
+          .finally(function () { del.disabled = cancel.disabled = false; });
+      });
+    }
+
     function render(rows) {
       if (!rows.length) { emptyRow('아직 남겨진 글이 없어요. 첫 글을 남겨 주세요.'); return; }
       list.replaceChildren();
@@ -601,14 +660,14 @@
       var content = contentEl.value.trim();
       if (!name) { setStatus('이름을 입력해 주세요.', true); nameEl.focus(); return; }
       if (!content) { setStatus('메시지를 입력해 주세요.', true); contentEl.focus(); return; }
-      if (pwEl.value.length < 4) { setStatus('수정용 비밀번호를 4자 이상 입력해 주세요.', true); pwEl.focus(); return; }
+      if (pwEl.value.length < 4) { setStatus('수정·삭제용 비밀번호를 4자 이상 입력해 주세요.', true); pwEl.focus(); return; }
 
       btn.disabled = true;
       setStatus('저장하는 중…');
       rpc('create_message', { p_name: name, p_content: content, p_password: pwEl.value })
         .then(function () {
           contentEl.value = ''; pwEl.value = '';
-          setStatus('남겨 주셔서 감사합니다! 비밀번호를 기억해 두면 나중에 수정할 수 있어요.');
+          setStatus('남겨 주셔서 감사합니다! 비밀번호를 기억해 두면 나중에 수정·삭제할 수 있어요.');
           return load();
         })
         .catch(function () { setStatus('저장하지 못했어요. 잠시 후 다시 시도해 주세요.', true); })
