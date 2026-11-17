@@ -1,0 +1,9 @@
+{
+  "name": "claude-workspace",
+  "private": true,
+  "description": "포트폴리오 로컬 실행용 명령 모음",
+  "scripts": {
+    "config": "node scripts/build-config.mjs",
+    "dev": "node scripts/build-config.mjs && python -m http.server 3000 --bind 127.0.0.1 -d portfolio"
+  }
+}

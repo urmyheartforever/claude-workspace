@@ -1,5 +1,22 @@
 # 할 일 (todo)
 
+## 2026-11-17 — 포트폴리오 방명록 (Supabase)
+
+> 상태: ✅ 로컬 테스트 완료 (guestbook 브랜치 커밋, GitHub·Vercel 미반영)
+> 브랜치: `guestbook` (테스트 끝날 때까지 main·Vercel은 그대로)
+> 키: anon(공개용)만 사용. service_role 키는 사용·저장 안 함
+
+### 단계
+- [x] 1. 브랜치 `guestbook` 만들기
+- [x] 2. `.env.local` 만들기 (SUPABASE_URL, SUPABASE_ANON_KEY) + `.env.example`(이름만) + `.gitignore`에 `.env.local`, `portfolio/config.js` 추가
+- [x] 3. `supabase/message.sql` 새로 만들기: `message` 테이블(id, name, content, created_at) + RLS(누구나 읽기·쓰기, 수정·삭제 불가)
+- [x] 4. ⛔ **사용자가 Supabase SQL Editor에서 Run** (anon 키로는 테이블 생성 불가)
+- [x] 5. `scripts/build-config.mjs`: `.env.local` → `portfolio/config.js` 생성 (추가 설치 없음)
+- [x] 6. `portfolio/index.html` 맨 아래에 방명록 폼 + 목록 추가 (라이브러리 없이 fetch, textContent로 안전하게 표시, 백업 먼저)
+- [x] 7. 로컬 실행 준비: `npm run dev` → http://localhost:3000 (python 내장 서버)
+- [x] 8. 테스트: 읽기·쓰기 성공 + 수정·삭제 차단 확인 (테스트 글 1개가 실제 DB에 남음) + 화면 캡처
+- [x] 9. 브랜치에 커밋 (GitHub·Vercel 반영은 따로 확인 후)
+
 ## 2026-11-17 — 포트폴리오 Vercel 배포 준비 (배포 클릭은 사용자가 직접)
 
 > 상태: ✅ 준비 완료 — Vercel에서 Import·Deploy는 사용자가 직접 (docs/vercel-배포가이드.md)

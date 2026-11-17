@@ -53,3 +53,10 @@
   - 조치: `vercel project update --root-directory portfolio` → 재배포 → https://claude-workspace-blush.vercel.app
   - 확인: `/` 200(화이트모드), 개인 파일 전부 404, 보안 헤더 3개 적용
   - 예전 배포본(lkkfz0d52)은 Vercel 로그인 필요(302)라 일반 공개는 아님. 삭제 여부는 사용자 결정 대기
+- 포트폴리오 배경 화이트 → 블랙(#000000) 변경, 커밋 59781b4 → GitHub 업로드 → Vercel 자동 배포 반영 확인 (화이트 백업: portfolio/index.html.white.bak)
+- 방명록(Supabase) 추가 — `guestbook` 브랜치
+  - `message` 테이블 + RLS (읽기·쓰기 누구나 / 수정·삭제 불가 / name·content만 입력 가능) — SQL은 사용자가 SQL Editor에서 실행
+  - `.env.local`(gitignore) → `scripts/build-config.mjs` → `portfolio/config.js`(gitignore), service_role 키면 중단하는 안전장치
+  - `npm run dev` → http://127.0.0.1:3000 (python 내장 서버)
+  - 테스트: 쓰기 201 / 읽기 OK / 수정·삭제 401 / id 지정·빈 이름·501자 400 / Edge 렌더링 OK. 테스트 글 id=2가 DB에 남아 있음
+  - 메모: Windows curl에 한글을 직접 넣으면 깨짐(400) → UTF-8 파일로 보내야 함 (브라우저는 문제없음)

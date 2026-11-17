@@ -4,8 +4,10 @@
 
 # 🔒 민감 파일 (키·비밀번호) — 절대 업로드 금지
 .env
+.env.local
 .env.*
 !.env.example
+portfolio/config.js
 *.key
 *.pem
 id_rsa*
