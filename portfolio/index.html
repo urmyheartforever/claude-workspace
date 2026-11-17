@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>이영선 · IT 강사</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Serif+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #161514;          /* 딥 차콜 */
+    --bg-raise: #1d1c1a;
+    --text: #ece6dc;        /* 따뜻한 아이보리 */
+    --muted: #9a938a;
+    --faint: #6b665f;
+    --line: #2f2d2a;
+    --accent: #c9a96e;      /* 브라스 골드 */
+    --serif: "Cormorant Garamond", "Noto Serif KR", "Batang", serif;
+    --sans: "DM Sans", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.75;
+    word-break: keep-all;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent); color: var(--bg); }
+  a { color: inherit; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+
+  /* 공통: 작은 대문자 라벨 */
+  .label {
+    font-family: var(--sans);
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* 상단 메뉴 */
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(22, 21, 20, 0.86);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+  nav .logo { font-family: var(--serif); font-size: 22px; font-weight: 500; letter-spacing: 0.02em; text-decoration: none; }
+  nav .logo em { color: var(--accent); font-style: italic; }
+  nav ul { display: flex; gap: 32px; list-style: none; }
+  nav ul a { text-decoration: none; color: var(--muted); transition: color .2s; }
+  nav ul a:hover { color: var(--accent); }
+
+  /* 첫 화면 */
+  .hero { padding: 120px 0 96px; }
+  .hero .label { display: flex; align-items: center; gap: 14px; }
+  .hero .label::before { content: ""; width: 40px; height: 1px; background: var(--accent); }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(42px, 7.4vw, 88px);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    margin: 28px 0 36px;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); font-weight: 400; }
+  .hero .lead {
+    max-width: 560px;
+    font-size: 17px; font-weight: 300;
+    color: var(--muted);
+    border-left: 1px solid var(--line);
+    padding-left: 24px;
+  }
+
+  /* KPI 카운터 */
+  .kpis {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .kpi { padding: 44px 28px 40px; border-left: 1px solid var(--line); }
+  .kpi:first-child { border-left: 0; padding-left: 0; }
+  .kpi .num {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 500;
+    font-size: clamp(56px, 7vw, 84px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: lining-nums tabular-nums;
+    color: var(--text);
+  }
+  .kpi .num sup {
+    font-size: 0.38em; color: var(--accent);
+    vertical-align: top; margin-left: 4px;
+    font-family: var(--sans); font-weight: 500; letter-spacing: 0;
+  }
+  .kpi .label { margin-top: 14px; display: block; }
+  .kpi p { margin-top: 4px; font-size: 14px; color: var(--faint); }
+
+  /* 섹션 공통 */
+  section { padding: 120px 0; }
+  .sec-head { display: grid; grid-template-columns: 280px 1fr; gap: 40px; margin-bottom: 64px; }
+  .sec-head .no { font-family: var(--serif); font-style: italic; font-size: 20px; color: var(--accent); }
+  .sec-head h2 {
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(34px, 4.6vw, 52px); line-height: 1.15; letter-spacing: -0.01em;
+  }
+
+  /* 소개 */
+  .about { display: grid; grid-template-columns: 280px 1fr; gap: 40px; }
+  .about .body p { font-size: 18px; font-weight: 300; color: var(--text); max-width: 620px; }
+  .about .body p + p { margin-top: 20px; color: var(--muted); }
+  .about .body .quote {
+    font-family: var(--serif); font-style: italic; font-size: 26px; line-height: 1.5;
+    color: var(--accent); margin: 40px 0; max-width: 620px;
+  }
+  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--line); max-width: 720px; }
+  .facts ul { list-style: none; margin-top: 16px; }
+  .facts li { padding: 6px 0; font-size: 15px; color: var(--text); }
+  .facts li span { color: var(--faint); font-size: 13px; display: block; }
+  .subjects { display: flex; flex-wrap: wrap; gap: 8px 10px; margin-top: 16px; }
+  .subjects span {
+    font-size: 14px; color: var(--text);
+    border: 1px solid var(--line); border-radius: 999px; padding: 4px 14px;
+  }
+
+  /* 경력 */
+  .jobs { border-top: 1px solid var(--line); }
+  .job {
+    display: grid; grid-template-columns: 280px 1fr 160px; gap: 40px;
+    padding: 48px 0; border-bottom: 1px solid var(--line);
+    transition: background .3s;
+  }
+  .job .years { font-family: var(--serif); font-size: 26px; line-height: 1.2; }
+  .job .years span { display: block; font-size: 16px; color: var(--faint); font-style: italic; margin-top: 6px; }
+  .job h3 {
+    font-family: var(--serif); font-weight: 500; font-size: 30px; line-height: 1.25; letter-spacing: -0.005em;
+  }
+  .job .role { margin: 6px 0 18px; }
+  .job ul { list-style: none; }
+  .job li { position: relative; padding-left: 20px; color: var(--muted); font-weight: 300; margin: 4px 0; }
+  .job li::before { content: "—"; position: absolute; left: 0; color: var(--faint); }
+  .job .dur { text-align: right; }
+  .job .dur b {
+    display: block; font-family: var(--serif); font-weight: 500; font-size: 44px; line-height: 1; color: var(--accent);
+  }
+
+  /* 연락처 */
+  .contact .big {
+    display: block; text-decoration: none;
+    font-family: var(--serif); font-weight: 400;
+    font-size: clamp(32px, 5.4vw, 64px); line-height: 1.2; letter-spacing: -0.01em;
+    padding: 28px 0; border-bottom: 1px solid var(--line);
+    overflow-wrap: anywhere;
+    transition: color .25s, padding-left .35s;
+  }
+  .contact .big:first-of-type { border-top: 1px solid var(--line); }
+  .contact .big .label { display: block; margin-bottom: 8px; }
+  .contact .big:hover { color: var(--accent); padding-left: 16px; }
+
+  footer { padding: 48px 0 64px; }
+  footer .wrap { display: flex; justify-content: space-between; color: var(--faint); font-size: 13px; letter-spacing: 0.06em; }
+
+  /* 스크롤 등장 효과 */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .9s ease, transform .9s ease; }
+  .reveal.on { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* 태블릿 */
+  @media (max-width: 900px) {
+    .wrap { padding: 0 28px; }
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .kpi:nth-child(3) { border-left: 0; padding-left: 0; }
+    .kpi:nth-child(n+3) { border-top: 1px solid var(--line); }
+    .sec-head, .about { grid-template-columns: 1fr; gap: 16px; }
+    .job { grid-template-columns: 1fr; gap: 12px; padding: 40px 0; }
+    .job .dur { text-align: left; }
+    .job .dur b { display: inline; font-size: 32px; margin-right: 8px; }
+  }
+  /* 휴대폰 */
+  @media (max-width: 560px) {
+    .wrap { padding: 0 16px; }
+    nav ul { gap: 18px; }
+    .hero { padding: 72px 0 64px; }
+    .hero .lead { font-size: 16px; padding-left: 16px; }
+    .kpi { padding: 28px 12px 24px 16px; }
+    .kpi:nth-child(odd) { padding-left: 0; }
+    section { padding: 80px 0; }
+    .sec-head { margin-bottom: 40px; }
+    .about .body p { font-size: 16px; }
+    .about .body .quote { font-size: 22px; }
+    .facts { grid-template-columns: 1fr; gap: 32px; }
+    .job h3 { font-size: 26px; }
+    footer .wrap { flex-direction: column; gap: 6px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top">Lee <em>Young-sun</em></a>
+    <ul class="label">
+      <li><a href="#about">About</a></li>
+      <li><a href="#career">Career</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <p class="label reveal">IT Instructor · Since 1998</p>
+    <h1 class="reveal">배우는 즐거움을<br>가르치는 강사, <em>이영선</em></h1>
+    <p class="lead reveal">컴퓨터학원, 직업전문학교, 대학교, 복지관, 원격평생교육원에서
+      프로그래밍과 컴퓨터 실무를 가르쳐 왔습니다. 학습자의 수준과 목적에 맞춰 풀어내는 강의를 합니다.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="kpis">
+    <div class="kpi reveal">
+      <div class="num"><span class="count" data-to="28">28</span><sup>년</sup></div>
+      <span class="label">Years Teaching</span>
+      <p>강의 경력</p>
+    </div>
+    <div class="kpi reveal">
+      <div class="num"><span class="count" data-to="21">21</span><sup>곳</sup></div>
+      <span class="label">Institutions</span>
+      <p>강의한 교육기관</p>
+    </div>
+    <div class="kpi reveal">
+      <div class="num"><span class="count" data-to="1998" data-from="1950">1998</span></div>
+      <span class="label">First Lecture</span>
+      <p>첫 강단에 선 해</p>
+    </div>
+    <div class="kpi reveal">
+      <div class="num"><span class="count" data-to="2">2</span><sup>개</sup></div>
+      <span class="label">Vocational Licenses</span>
+      <p>직업훈련교사 자격</p>
+    </div>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="no">01 — About</span>
+      <h2>현장에서 쌓은 경험,<br>멈추지 않는 배움</h2>
+    </div>
+    <div class="about">
+      <div></div>
+      <div class="body">
+        <p class="reveal">대학 신입생, 재취업을 준비하는 성인, 기업 인턴, 장애인·실버 학습자까지
+          수준과 목적이 서로 다른 학습자를 만나 왔습니다.</p>
+        <p class="quote reveal">“같은 내용이라도 대상에 맞게 풀어내는 것,<br>그것이 강사의 핵심 역량입니다.”</p>
+        <p class="reveal">강단에 서는 동안에도 학사와 석사를 마치고 박사과정을 수료했으며,
+          OS와 웹표준에서 Java, C#, ITQ까지 시대에 맞춰 강의 분야를 넓혀 왔습니다.</p>
+
+        <div class="facts reveal">
+          <div>
+            <span class="label">Subjects</span>
+            <div class="subjects">
+              <span>Java</span><span>C / C#</span><span>HTML·CSS·JS</span><span>운영체제</span>
+              <span>정보보호</span><span>ITQ</span><span>컴퓨터활용능력</span><span>포토샵</span>
+            </div>
+          </div>
+          <div>
+            <span class="label">Education</span>
+            <ul>
+              <li>게임공학 박사과정 수료<span>중앙대학교 첨단영상대학원</span></li>
+              <li>게임학 석사<span>광운대학교 정보통신대학원</span></li>
+              <li>컴퓨터과학 학사<span>한국방송통신대학교</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="career">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="no">02 — Career</span>
+      <h2>가장 오래 함께한<br>교육기관 세 곳</h2>
+    </div>
+    <div class="jobs">
+      <article class="job reveal">
+        <div class="years">2003 — 2015<span>Oct. 2003 – Jun. 2015</span></div>
+        <div>
+          <h3>서울예술실용전문학교</h3>
+          <p class="label role">Lecturer · Digital Contents</p>
+          <ul>
+            <li>학점은행제: 멀티미디어, 웹프로그래밍, 게임프로그래밍</li>
+            <li>재취업 실업자 교육: 웹프로그래밍, 웹디자인, 쇼핑몰 웹프로젝트</li>
+            <li>전신인 (재)한성전문학교 전임강사 (1999.11 – 2003.03)</li>
+          </ul>
+        </div>
+        <div class="dur"><b>11.8</b><span class="label">Years</span></div>
+      </article>
+      <article class="job reveal">
+        <div class="years">2013 — 2021<span>Mar. 2013 – Dec. 2021</span></div>
+        <div>
+          <h3>강동대학교</h3>
+          <p class="label role">Lecturer · Computer Information</p>
+          <ul>
+            <li>전산개론, 운영체제, 정보보호 등</li>
+            <li>컴퓨터정보과 · 호텔조리과 · 안경광학과</li>
+          </ul>
+        </div>
+        <div class="dur"><b>8.9</b><span class="label">Years</span></div>
+      </article>
+      <article class="job reveal">
+        <div class="years">2021 — Now<span>Mar. 2021 – Present</span></div>
+        <div>
+          <h3>㈜아너스원격평생교육원</h3>
+          <p class="label role">Managing Professor · Computing</p>
+          <ul>
+            <li>원격(온라인) 평생교육 과정 운영 및 학습자 관리</li>
+          </ul>
+        </div>
+        <div class="dur"><b>5.8</b><span class="label">Years</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="no">03 — Contact</span>
+      <h2>강의 문의는<br>언제든 편하게</h2>
+    </div>
+    <a class="big reveal" href="mailto:URmyHeart@outlook.kr"><span class="label">Email</span>URmyHeart@outlook.kr</a>
+    <a class="big reveal" href="tel:010-6639-1448"><span class="label">Mobile</span>010 · 6639 · 1448</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><span>© 2026 LEE YOUNG-SUN</span><span>IT INSTRUCTOR · GOYANG, KOREA</span></div>
+</footer>
+
+<script>
+  (function () {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // 스크롤하면 서서히 나타나기
+    var reveals = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window) || reduce) {
+      reveals.forEach(function (el) { el.classList.add('on'); });
+    } else {
+      var ro = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('on'); ro.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      reveals.forEach(function (el) { ro.observe(el); });
+    }
+
+    // KPI 숫자 카운터 (화면에 보이면 0 → 목표값으로 올라감)
+    var counters = document.querySelectorAll('.count');
+    if (reduce || !('IntersectionObserver' in window)) return; // 움직임 줄이기 설정이면 최종값 그대로
+
+    function run(el) {
+      var to = +el.dataset.to, from = +(el.dataset.from || 0), dur = 1800, t0 = null;
+      function step(t) {
+        if (!t0) t0 = t;
+        var p = Math.min((t - t0) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3);          // 끝에서 천천히 멈추기
+        el.textContent = Math.round(from + (to - from) * eased);
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+      // 안전장치: 탭 전환 등으로 애니메이션이 멈춰도 결국 정확한 최종값을 보여줌
+      setTimeout(function () { el.textContent = to; }, dur + 300);
+    }
+    counters.forEach(function (el) { el.textContent = el.dataset.from || 0; });
+    var co = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { run(e.target); co.unobserve(e.target); }
+      });
+    }, { threshold: 0.6 });
+    counters.forEach(function (el) { co.observe(el); });
+  })();
+</script>
+</body>
+</html>
