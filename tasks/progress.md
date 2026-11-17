@@ -48,3 +48,8 @@
 - Vercel 배포 준비: `portfolio/vercel.json`(보안 헤더), `docs/vercel-배포가이드.md` 추가, README 구조 갱신 → GitHub 업로드
   - Vercel에서 **Root Directory = portfolio** 필수 (안 하면 CLAUDE.md 등 공개될 위험)
   - Import·Deploy 클릭은 사용자가 직접
+- Vercel 배포 문제 해결 (CLI 65.16.0 설치, `vercel login` 완료)
+  - 원인: 프로젝트 Root Directory가 `.`(레포 전체) → 첫 화면 404, `/CLAUDE.md`·`/SECURITY.md`·`/tasks/todo.md`가 **약 13분간 공개됨** (키·비밀번호는 없음)
+  - 조치: `vercel project update --root-directory portfolio` → 재배포 → https://claude-workspace-blush.vercel.app
+  - 확인: `/` 200(화이트모드), 개인 파일 전부 404, 보안 헤더 3개 적용
+  - 예전 배포본(lkkfz0d52)은 Vercel 로그인 필요(302)라 일반 공개는 아님. 삭제 여부는 사용자 결정 대기
