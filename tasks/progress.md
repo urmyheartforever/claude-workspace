@@ -37,3 +37,8 @@
 ## 2026-11-17
 - GitHub CLI(gh 2.104.0) 로그인 완료: 계정 urmyheartforever, HTTPS, 토큰은 Windows 자격 증명 관리자에 저장
 - 참고: 현재 터미널은 gh 경로를 몰라서 전체 경로로 실행함. 터미널을 재시작하면 `gh`만 입력해도 됨
+- claude-workspace를 GitHub에 업로드: https://github.com/urmyheartforever/claude-workspace (**PRIVATE** 확인)
+  - `.gitignore` 새로 만듦: 키·.env·.pem 등 + 개인 문서(resume.pdf, 자기소개서) + *.bak + downloads-move-log 제외
+  - `README.md` 실제 구조로 정리 (원본은 README.md.bak, 업로드 안 됨)
+  - 첫 커밋 `Initial setup` (b351ce7), 작성자 = GitHub 비공개 이메일 (이 폴더에만 설정)
+  - `gh auth setup-git` 실행: git이 gh 로그인으로 push하도록 연결

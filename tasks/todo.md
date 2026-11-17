@@ -1,24 +1,49 @@
 # 할 일 (todo)
 
-## 2026-11-17 — claude-workspace를 GitHub에 올리기
+## 2026-11-17 — 포트폴리오 화이트모드 (브랜치 작업)
 
 > 상태: ⏳ 계획 확인 대기
+> 브랜치: `portfolio-white` → 확인 후 `main`에 머지 → GitHub 업로드
+
+### 색 바꾸기 (다크 → 화이트)
+| 이름 | 지금 (다크) | 바꿀 색 (화이트) |
+|---|---|---|
+| 배경 `--bg` | #161514 딥 차콜 | #ffffff 흰색 |
+| 카드 배경 `--bg-raise` | #1d1c1a | #f7f5f1 아주 옅은 아이보리 |
+| 글자 `--text` | #ece6dc 아이보리 | #1c1b19 거의 검정 |
+| 보조 글자 `--muted` | #9a938a | #6b665f |
+| 흐린 글자 `--faint` | #6b665f | #9a938a |
+| 구분선 `--line` | #2f2d2a | #e7e3dc |
+| 강조 `--accent` | #c9a96e 골드 | #8f6d2f 진한 골드 (흰 배경에서 잘 읽히게) |
+| 상단 메뉴 배경 | 반투명 차콜 | 반투명 흰색 |
+
+### 단계
+- [ ] 0. main에 남아 있는 작업 기록(todo.md, progress.md) 변경을 먼저 커밋
+- [ ] 1. 새 브랜치 `portfolio-white` 만들기
+- [ ] 2. `portfolio/index.html` 색 변경 (기존 `index.html.bak`은 그대로 두고, 다크 버전은 `index.html.dark.bak`으로 새로 백업)
+- [ ] 3. 브라우저(Edge)로 PC·모바일 화면 캡처 → **보여드리고 OK 받기**
+- [ ] 4. 브랜치에 커밋 → `main`에 머지
+- [ ] 5. GitHub에 업로드 → 확인 → `progress.md` 기록
+
+## 2026-11-17 — claude-workspace를 GitHub에 올리기
+
+> 상태: ✅ 완료 (커밋 b351ce7, PRIVATE 확인, 11개 업로드 / 5개 제외)
 > 레포: `urmyheartforever/claude-workspace` (**private**) / 첫 커밋: `Initial setup`
 > 작성자: `urmyheartforever` / `357676600+urmyheartforever@users.noreply.github.com` (실제 이메일 노출 안 됨, 이 폴더에만 설정)
 
 ### 단계
-- [ ] 1. `.gitignore` 만들기
+- [x] 1. `.gitignore` 만들기
   - 민감 파일: `.env`, `.env.*`(단 `.env.example`은 허용), `*.key`, `*.pem`, `id_rsa*`, `*credentials*`
   - 개인 문서: `resume.pdf`, `자기소개서_*.md`, `*.bak`, `tasks/downloads-move-log.txt`
   - 기타: 파이썬 캐시(`__pycache__/`), Windows 시스템 파일(`desktop.ini`, `Thumbs.db`)
-- [ ] 2. `README.md` 정리 (수정 전 `README.md.bak`으로 백업, 백업은 업로드 제외)
+- [x] 2. `README.md` 정리 (수정 전 `README.md.bak`으로 백업, 백업은 업로드 제외)
   - 실제 폴더 구조 반영 (portfolio / scripts / tasks / 샘플 데이터)
   - "GitHub에 안 올라가는 파일" 표 추가
-- [ ] 3. `git init` → 작성자 설정(이 폴더만) → `git add .`
-- [ ] 4. **올라갈 파일 목록 확인** (민감·개인 파일이 빠졌는지 검사) → 보여드리고 OK 받기
-- [ ] 5. 커밋 `Initial setup`
-- [ ] 6. `gh repo create --private`로 레포 만들고 업로드(push)
-- [ ] 7. GitHub에서 private 여부와 파일 목록 확인 → `progress.md` 기록
+- [x] 3. `git init` → 작성자 설정(이 폴더만) → `git add .`
+- [x] 4. **올라갈 파일 목록 확인** (민감·개인 파일이 빠졌는지 검사) → 보여드리고 OK 받기
+- [x] 5. 커밋 `Initial setup`
+- [x] 6. `gh repo create --private`로 레포 만들고 업로드(push)
+- [x] 7. GitHub에서 private 여부와 파일 목록 확인 → `progress.md` 기록
 
 ### 참고
 - `portfolio/index.html`에는 휴대폰 번호가 있지만, 선택하신 대로 그대로 올라감 (private 레포)
