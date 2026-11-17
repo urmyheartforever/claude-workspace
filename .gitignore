@@ -4,8 +4,10 @@
 
 # 🔒 민감 파일 (키·비밀번호) — 절대 업로드 금지
 .env
+.env.local
 .env.*
 !.env.example
+portfolio/config.js
 *.key
 *.pem
 id_rsa*
@@ -26,3 +28,8 @@ __pycache__/
 # 🪟 Windows 시스템 파일
 desktop.ini
 Thumbs.db
+
+# ▲ Vercel CLI (vercel link 가 자동 추가)
+.vercel
+.env*
+!.env.example

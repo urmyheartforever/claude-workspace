@@ -163,6 +163,49 @@
   .contact .big .label { display: block; margin-bottom: 8px; }
   .contact .big:hover { color: var(--accent); padding-left: 16px; }
 
+  /* 방명록 */
+  .gb-form { display: grid; grid-template-columns: 160px 1fr 150px auto; gap: 12px; align-items: start; margin-bottom: 48px; }
+  .gb-form input, .gb-form textarea, .gb-edit textarea, .gb-edit input {
+    width: 100%; background: var(--bg-raise); color: var(--text);
+    border: 1px solid var(--line); border-radius: 0; padding: 14px 16px;
+    font: inherit; font-size: 15px; line-height: 1.5;
+  }
+  .gb-form textarea { resize: vertical; min-height: 52px; max-height: 240px; }
+  .gb-form input:focus, .gb-form textarea:focus, .gb-edit textarea:focus, .gb-edit input:focus { outline: none; border-color: var(--accent); }
+  .gb-form input::placeholder, .gb-form textarea::placeholder, .gb-edit input::placeholder { color: var(--faint); }
+  .gb-form button, .gb-btn {
+    height: 52px; padding: 0 28px; background: transparent; color: var(--accent);
+    border: 1px solid var(--accent); font: inherit; font-size: 13px; font-weight: 500;
+    letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; transition: background .2s, color .2s;
+  }
+  .gb-form button:hover:not(:disabled), .gb-btn:hover:not(:disabled) { background: var(--accent); color: var(--bg); }
+  .gb-form button:disabled, .gb-btn:disabled { opacity: .5; cursor: wait; }
+  .gb-btn { height: 40px; padding: 0 18px; font-size: 12px; }
+  .gb-btn.ghost { border-color: var(--line); color: var(--muted); }
+  .gb-btn.ghost:hover:not(:disabled) { background: transparent; color: var(--text); border-color: var(--muted); }
+  .gb-body { min-width: 0; }
+  .gb-tools { margin-top: 10px; }
+  .gb-link {
+    background: none; border: 0; padding: 0; cursor: pointer; font: inherit;
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint);
+  }
+  .gb-link:hover { color: var(--accent); }
+  .gb-edited { margin-left: 6px; font-size: 11px; color: var(--faint); }
+  .gb-edit { display: grid; gap: 10px; }
+  .gb-edit textarea { min-height: 96px; resize: vertical; }
+  .gb-edit .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .gb-edit input { width: 180px; }
+  .gb-edit .st { font-size: 13px; color: var(--muted); }
+  .gb-edit .st.err { color: #e08a7a; }
+  .gb-status { min-height: 1.5em; margin: -36px 0 24px; font-size: 13px; color: var(--muted); }
+  .gb-status.err { color: #e08a7a; }
+  .gb-list { list-style: none; border-top: 1px solid var(--line); }
+  .gb-item { display: grid; grid-template-columns: 200px 1fr; gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+  .gb-item .who { font-weight: 500; overflow-wrap: anywhere; }
+  .gb-item .when { display: block; margin-top: 4px; font-size: 12px; color: var(--faint); letter-spacing: 0.04em; }
+  .gb-item .msg { color: var(--muted); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .gb-empty { padding: 24px 0; color: var(--faint); }
+
   footer { padding: 48px 0 64px; }
   footer .wrap { display: flex; justify-content: space-between; color: var(--faint); font-size: 13px; letter-spacing: 0.06em; }
 
@@ -200,6 +243,10 @@
     .facts { grid-template-columns: 1fr; gap: 32px; }
     .job h3 { font-size: 26px; }
     footer .wrap { flex-direction: column; gap: 6px; }
+    .gb-form { grid-template-columns: 1fr; }
+    .gb-form button { width: 100%; }
+    .gb-item { grid-template-columns: 1fr; gap: 8px; }
+    .gb-edit input { width: 100%; }
   }
 </style>
 </head>
@@ -345,6 +392,25 @@
   </div>
 </section>
 
+<section id="guestbook">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="no">04 — Guestbook</span>
+      <h2>방문해 주셔서<br>감사합니다</h2>
+    </div>
+    <form class="gb-form" id="gb-form" novalidate>
+      <input id="gb-name" name="name" type="text" maxlength="30" placeholder="이름" autocomplete="name" required aria-label="이름">
+      <textarea id="gb-content" name="content" maxlength="500" rows="1" placeholder="남기실 말씀 (500자 이내)" required aria-label="메시지"></textarea>
+      <input id="gb-password" name="password" type="password" minlength="4" maxlength="72" placeholder="비밀번호 (수정용)" autocomplete="new-password" required aria-label="수정용 비밀번호">
+      <button type="submit" id="gb-submit">남기기</button>
+    </form>
+    <p class="gb-status" id="gb-status" role="status" aria-live="polite"></p>
+    <ul class="gb-list" id="gb-list" aria-label="방명록 목록">
+      <li class="gb-empty">불러오는 중…</li>
+    </ul>
+  </div>
+</section>
+
 <footer>
   <div class="wrap"><span>© 2026 LEE YOUNG-SUN</span><span>IT INSTRUCTOR · GOYANG, KOREA</span></div>
 </footer>
@@ -390,6 +456,166 @@
       });
     }, { threshold: 0.6 });
     counters.forEach(function (el) { co.observe(el); });
+  })();
+</script>
+
+<!-- 방명록: config.js 는 scripts/build-config.mjs 가 .env.local 에서 자동 생성 (커밋 안 됨) -->
+<script src="config.js"></script>
+<script>
+  (function () {
+    var cfg = window.SUPABASE_CONFIG;
+    var form = document.getElementById('gb-form');
+    var nameEl = document.getElementById('gb-name');
+    var contentEl = document.getElementById('gb-content');
+    var pwEl = document.getElementById('gb-password');
+    var btn = document.getElementById('gb-submit');
+    var statusEl = document.getElementById('gb-status');
+    var list = document.getElementById('gb-list');
+
+    function setStatus(text, isErr) {
+      statusEl.textContent = text || '';
+      statusEl.classList.toggle('err', !!isErr);
+    }
+    function emptyRow(text) {
+      list.replaceChildren();
+      var li = document.createElement('li');
+      li.className = 'gb-empty';
+      li.textContent = text;
+      list.appendChild(li);
+    }
+
+    if (!cfg || !cfg.url || !cfg.anonKey) {
+      emptyRow('방명록 설정(config.js)이 없어요. npm run dev 로 실행해 주세요.');
+      btn.disabled = true;
+      return;
+    }
+
+    var base = cfg.url.replace(/\/$/, '') + '/rest/v1';
+    var api = base + '/message';
+    var headers = { apikey: cfg.anonKey, Authorization: 'Bearer ' + cfg.anonKey };
+    var fmt = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium', timeStyle: 'short' });
+
+    // DB 함수 호출 (create_message / update_message)
+    function rpc(fn, body) {
+      return fetch(base + '/rpc/' + fn, {
+        method: 'POST',
+        headers: Object.assign({ 'Content-Type': 'application/json' }, headers),
+        body: JSON.stringify(body)
+      }).then(function (res) {
+        return res.json().catch(function () { return null; }).then(function (data) {
+          if (!res.ok) throw new Error((data && data.message) || 'HTTP ' + res.status);
+          return data;
+        });
+      });
+    }
+
+    function el(tag, cls, text) {
+      var n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text != null) n.textContent = text;   // 사용자 글은 항상 textContent → 스크립트 실행 안 됨
+      return n;
+    }
+
+    // 글 하나 그리기
+    function renderItem(r) {
+      var li = el('li', 'gb-item');
+      var who = el('div', 'who', r.name);
+      var when = el('time', 'when', fmt.format(new Date(r.created_at)));
+      when.dateTime = r.created_at;
+      if (r.updated_at) {
+        var ed = el('span', 'gb-edited', '· 수정됨');
+        ed.title = '수정: ' + fmt.format(new Date(r.updated_at));
+        when.appendChild(ed);
+      }
+      who.appendChild(when);
+
+      var body = el('div', 'gb-body');
+      var msg = el('p', 'msg', r.content);
+      var tools = el('div', 'gb-tools');
+      var editBtn = el('button', 'gb-link', '수정');
+      editBtn.type = 'button';
+      editBtn.setAttribute('aria-label', r.name + '님의 글 수정');
+      editBtn.addEventListener('click', function () { openEditor(body, r); });
+      tools.appendChild(editBtn);
+      body.appendChild(msg); body.appendChild(tools);
+
+      li.appendChild(who); li.appendChild(body);
+      return li;
+    }
+
+    // 수정 칸 열기 (그 글 자리에서 바로 고치기)
+    function openEditor(body, r) {
+      var box = el('form', 'gb-edit');
+      var ta = el('textarea'); ta.maxLength = 500; ta.value = r.content; ta.setAttribute('aria-label', '수정할 내용');
+      var row = el('div', 'row');
+      var pw = el('input'); pw.type = 'password'; pw.maxLength = 72; pw.placeholder = '작성 때 비밀번호';
+      pw.autocomplete = 'current-password'; pw.setAttribute('aria-label', '비밀번호 확인');
+      var save = el('button', 'gb-btn', '저장'); save.type = 'submit';
+      var cancel = el('button', 'gb-btn ghost', '취소'); cancel.type = 'button';
+      var st = el('span', 'st'); st.setAttribute('role', 'status');
+      row.appendChild(pw); row.appendChild(save); row.appendChild(cancel); row.appendChild(st);
+      box.appendChild(ta); box.appendChild(row);
+
+      var original = Array.prototype.slice.call(body.childNodes);
+      body.replaceChildren(box);
+      ta.focus();
+
+      function close() { body.replaceChildren.apply(body, original); }
+      function say(t, err) { st.textContent = t; st.classList.toggle('err', !!err); }
+
+      cancel.addEventListener('click', close);
+      box.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var content = ta.value.trim();
+        if (!content) { say('내용을 입력해 주세요.', true); ta.focus(); return; }
+        if (!pw.value) { say('비밀번호를 입력해 주세요.', true); pw.focus(); return; }
+        save.disabled = cancel.disabled = true;
+        say('확인하는 중…');
+        rpc('update_message', { p_id: r.id, p_password: pw.value, p_content: content })
+          .then(function (ok) {
+            if (ok === true) { setStatus('글을 수정했어요.'); return load(); }
+            say('비밀번호가 맞지 않아요. (비밀번호 없이 쓴 예전 글은 수정할 수 없어요)', true);
+            pw.value = ''; pw.focus();
+          })
+          .catch(function () { say('수정하지 못했어요. 잠시 후 다시 시도해 주세요.', true); })
+          .finally(function () { save.disabled = cancel.disabled = false; });
+      });
+    }
+
+    function render(rows) {
+      if (!rows.length) { emptyRow('아직 남겨진 글이 없어요. 첫 글을 남겨 주세요.'); return; }
+      list.replaceChildren();
+      rows.forEach(function (r) { list.appendChild(renderItem(r)); });
+    }
+
+    function load() {
+      return fetch(api + '?select=id,name,content,created_at,updated_at&order=created_at.desc&limit=50', { headers: headers })
+        .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
+        .then(render)
+        .catch(function () { emptyRow('방명록을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.'); });
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = nameEl.value.trim();
+      var content = contentEl.value.trim();
+      if (!name) { setStatus('이름을 입력해 주세요.', true); nameEl.focus(); return; }
+      if (!content) { setStatus('메시지를 입력해 주세요.', true); contentEl.focus(); return; }
+      if (pwEl.value.length < 4) { setStatus('수정용 비밀번호를 4자 이상 입력해 주세요.', true); pwEl.focus(); return; }
+
+      btn.disabled = true;
+      setStatus('저장하는 중…');
+      rpc('create_message', { p_name: name, p_content: content, p_password: pwEl.value })
+        .then(function () {
+          contentEl.value = ''; pwEl.value = '';
+          setStatus('남겨 주셔서 감사합니다! 비밀번호를 기억해 두면 나중에 수정할 수 있어요.');
+          return load();
+        })
+        .catch(function () { setStatus('저장하지 못했어요. 잠시 후 다시 시도해 주세요.', true); })
+        .finally(function () { btn.disabled = false; });
+    });
+
+    load();
   })();
 </script>
 </body>

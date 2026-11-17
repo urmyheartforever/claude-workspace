@@ -1,5 +1,49 @@
 # 할 일 (todo)
 
+## 2026-11-17 — 방명록 Vercel 배포
+
+> 상태: 🔄 진행 중
+- [ ] 1. Vercel 환경변수 등록 (SUPABASE_URL, SUPABASE_ANON_KEY — production·preview)
+- [ ] 2. `portfolio/vercel.json`에 buildCommand(`node ../scripts/build-config.mjs`) 추가 → 배포 때 config.js 생성
+- [ ] 3. `guestbook` 브랜치 push → 미리보기 배포 빌드 로그 확인
+- [ ] 4. main 머지 → push → 실제 사이트 확인 (방명록 표시, config.js, 개인 파일 404)
+- [ ] 5. 기록
+
+## 2026-11-17 — 방명록 글 수정 (비밀번호 방식)
+
+> 상태: ✅ 완료 (브라우저 자동 테스트 8개 통과, guestbook 브랜치 커밋)
+> 브랜치: `guestbook` (계속)
+
+### 방식
+- 글 쓸 때 비밀번호(4자 이상) 함께 입력 → DB에는 **암호화(bcrypt)해서** 저장, 아무도 원래 비밀번호를 볼 수 없음
+- 수정할 때 같은 비밀번호를 넣으면 DB가 직접 확인 후 수정 (브라우저가 비밀번호 정답을 받지 않음)
+- 방문자는 표에 직접 쓰기 불가 → **DB 함수 2개로만** 쓰기·수정 (`create_message`, `update_message`)
+- 기존 테스트 글(id=2)은 비밀번호가 없어서 수정 불가 (대시보드에서 지우면 됨)
+
+### 단계
+- [x] 1. `supabase/message_edit.sql` 새로 만들기: `password_hash`·`updated_at` 칸 추가, 비밀번호 칸은 읽기 금지, 함수 2개, 직접 쓰기 권한 회수
+- [x] 2. ⛔ **사용자가 Supabase SQL Editor에서 Run**
+- [x] 3. `portfolio/index.html`: 작성 폼에 비밀번호 칸 + 글마다 [수정] 버튼(내용 고치기 + 비밀번호 확인) + "수정됨" 표시 (백업 먼저)
+- [x] 4. 테스트: 비밀번호 맞음 → 수정됨 / 틀림 → 거절 / 비밀번호 칸 조회 불가 / 직접 쓰기 불가 / 브라우저 화면 확인
+- [x] 5. `guestbook` 브랜치에 커밋 + 기록
+
+## 2026-11-17 — 포트폴리오 방명록 (Supabase)
+
+> 상태: ✅ 로컬 테스트 완료 (guestbook 브랜치 커밋, GitHub·Vercel 미반영)
+> 브랜치: `guestbook` (테스트 끝날 때까지 main·Vercel은 그대로)
+> 키: anon(공개용)만 사용. service_role 키는 사용·저장 안 함
+
+### 단계
+- [x] 1. 브랜치 `guestbook` 만들기
+- [x] 2. `.env.local` 만들기 (SUPABASE_URL, SUPABASE_ANON_KEY) + `.env.example`(이름만) + `.gitignore`에 `.env.local`, `portfolio/config.js` 추가
+- [x] 3. `supabase/message.sql` 새로 만들기: `message` 테이블(id, name, content, created_at) + RLS(누구나 읽기·쓰기, 수정·삭제 불가)
+- [x] 4. ⛔ **사용자가 Supabase SQL Editor에서 Run** (anon 키로는 테이블 생성 불가)
+- [x] 5. `scripts/build-config.mjs`: `.env.local` → `portfolio/config.js` 생성 (추가 설치 없음)
+- [x] 6. `portfolio/index.html` 맨 아래에 방명록 폼 + 목록 추가 (라이브러리 없이 fetch, textContent로 안전하게 표시, 백업 먼저)
+- [x] 7. 로컬 실행 준비: `npm run dev` → http://localhost:3000 (python 내장 서버)
+- [x] 8. 테스트: 읽기·쓰기 성공 + 수정·삭제 차단 확인 (테스트 글 1개가 실제 DB에 남음) + 화면 캡처
+- [x] 9. 브랜치에 커밋 (GitHub·Vercel 반영은 따로 확인 후)
+
 ## 2026-11-17 — 포트폴리오 Vercel 배포 준비 (배포 클릭은 사용자가 직접)
 
 > 상태: ✅ 준비 완료 — Vercel에서 Import·Deploy는 사용자가 직접 (docs/vercel-배포가이드.md)
