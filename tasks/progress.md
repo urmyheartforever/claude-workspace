@@ -42,3 +42,9 @@
   - `README.md` 실제 구조로 정리 (원본은 README.md.bak, 업로드 안 됨)
   - 첫 커밋 `Initial setup` (b351ce7), 작성자 = GitHub 비공개 이메일 (이 폴더에만 설정)
   - `gh auth setup-git` 실행: git이 gh 로그인으로 push하도록 연결
+- 포트폴리오 화이트모드: `portfolio-white` 브랜치에서 색 변경 → Edge 캡처로 확인 → main 머지 (046382a, af04e92)
+  - 다크 버전 백업: `portfolio/index.html.dark.bak` (업로드 안 됨)
+  - 모바일 캡처에서 오른쪽 글자 잘림 발견. 다크 버전도 동일 → 이번 변경과 무관. 원인 미확인 (추가 확인 필요)
+- Vercel 배포 준비: `portfolio/vercel.json`(보안 헤더), `docs/vercel-배포가이드.md` 추가, README 구조 갱신 → GitHub 업로드
+  - Vercel에서 **Root Directory = portfolio** 필수 (안 하면 CLAUDE.md 등 공개될 위험)
+  - Import·Deploy 클릭은 사용자가 직접

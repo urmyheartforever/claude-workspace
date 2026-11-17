@@ -2,21 +2,21 @@
 
 ## 2026-11-17 — 포트폴리오 Vercel 배포 준비 (배포 클릭은 사용자가 직접)
 
-> 상태: ⏳ 계획 확인 대기
+> 상태: ✅ 준비 완료 — Vercel에서 Import·Deploy는 사용자가 직접 (docs/vercel-배포가이드.md)
 > 방식: Vercel이 private 레포 `claude-workspace`를 가져가되, **Root Directory = `portfolio`** 로 설정해서 포트폴리오 폴더만 공개
 
 ### 단계
-- [ ] 1. 대기 중인 화이트모드를 `portfolio-white` 브랜치에 커밋 → `main`에 머지 (Vercel은 main을 배포)
-- [ ] 2. `portfolio/vercel.json` 새로 만들기: 보안 헤더(다른 사이트에 몰래 끼워넣기 방지 등) + 주소 정리
-- [ ] 3. `docs/vercel-배포가이드.md` 새로 만들기: 클릭 순서 안내 (portfolio 폴더 밖이라 공개되지 않음)
-- [ ] 4. 커밋 → GitHub 업로드 → 올라간 파일 확인 → `progress.md` 기록
+- [x] 1. 대기 중인 화이트모드를 `portfolio-white` 브랜치에 커밋 → `main`에 머지 (Vercel은 main을 배포)
+- [x] 2. `portfolio/vercel.json` 새로 만들기: 보안 헤더(다른 사이트에 몰래 끼워넣기 방지 등) + 주소 정리
+- [x] 3. `docs/vercel-배포가이드.md` 새로 만들기: 클릭 순서 안내 (portfolio 폴더 밖이라 공개되지 않음)
+- [x] 4. 커밋 → GitHub 업로드 → 올라간 파일 확인 → `progress.md` 기록
 
 ### ⚠️ 배포 전 확인
 - `portfolio/index.html`에 휴대폰 번호·이메일이 있음 → 배포하면 **누구나 볼 수 있음**
 
 ## 2026-11-17 — 포트폴리오 화이트모드 (브랜치 작업)
 
-> 상태: ⏳ 계획 확인 대기
+> 상태: ✅ 완료 (main에 머지, GitHub 업로드)
 > 브랜치: `portfolio-white` → 확인 후 `main`에 머지 → GitHub 업로드
 
 ### 색 바꾸기 (다크 → 화이트)
@@ -32,12 +32,12 @@
 | 상단 메뉴 배경 | 반투명 차콜 | 반투명 흰색 |
 
 ### 단계
-- [ ] 0. main에 남아 있는 작업 기록(todo.md, progress.md) 변경을 먼저 커밋
-- [ ] 1. 새 브랜치 `portfolio-white` 만들기
-- [ ] 2. `portfolio/index.html` 색 변경 (기존 `index.html.bak`은 그대로 두고, 다크 버전은 `index.html.dark.bak`으로 새로 백업)
-- [ ] 3. 브라우저(Edge)로 PC·모바일 화면 캡처 → **보여드리고 OK 받기**
-- [ ] 4. 브랜치에 커밋 → `main`에 머지
-- [ ] 5. GitHub에 업로드 → 확인 → `progress.md` 기록
+- [x] 0. main에 남아 있는 작업 기록(todo.md, progress.md) 변경을 먼저 커밋
+- [x] 1. 새 브랜치 `portfolio-white` 만들기
+- [x] 2. `portfolio/index.html` 색 변경 (기존 `index.html.bak`은 그대로 두고, 다크 버전은 `index.html.dark.bak`으로 새로 백업)
+- [x] 3. 브라우저(Edge)로 PC·모바일 화면 캡처 → **보여드리고 OK 받기**
+- [x] 4. 브랜치에 커밋 → `main`에 머지
+- [x] 5. GitHub에 업로드 → 확인 → `progress.md` 기록
 
 ## 2026-11-17 — claude-workspace를 GitHub에 올리기
 
