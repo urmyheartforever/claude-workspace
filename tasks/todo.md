@@ -1,5 +1,19 @@
 # 할 일 (todo)
 
+## 2026-11-17 — 포트폴리오 Vercel 배포 준비 (배포 클릭은 사용자가 직접)
+
+> 상태: ⏳ 계획 확인 대기
+> 방식: Vercel이 private 레포 `claude-workspace`를 가져가되, **Root Directory = `portfolio`** 로 설정해서 포트폴리오 폴더만 공개
+
+### 단계
+- [ ] 1. 대기 중인 화이트모드를 `portfolio-white` 브랜치에 커밋 → `main`에 머지 (Vercel은 main을 배포)
+- [ ] 2. `portfolio/vercel.json` 새로 만들기: 보안 헤더(다른 사이트에 몰래 끼워넣기 방지 등) + 주소 정리
+- [ ] 3. `docs/vercel-배포가이드.md` 새로 만들기: 클릭 순서 안내 (portfolio 폴더 밖이라 공개되지 않음)
+- [ ] 4. 커밋 → GitHub 업로드 → 올라간 파일 확인 → `progress.md` 기록
+
+### ⚠️ 배포 전 확인
+- `portfolio/index.html`에 휴대폰 번호·이메일이 있음 → 배포하면 **누구나 볼 수 있음**
+
 ## 2026-11-17 — 포트폴리오 화이트모드 (브랜치 작업)
 
 > 상태: ⏳ 계획 확인 대기

@@ -20,8 +20,12 @@ claude-workspace/
 │   ├── todo.md             ← 할 일 (계획 + 체크리스트)
 │   └── progress.md         ← 한 일 기록 (지우지 않고 계속 추가)
 │
-├── portfolio/              ← 포트폴리오 웹페이지
-│   └── index.html          ← 브라우저로 바로 열리는 한 장짜리 페이지
+├── portfolio/              ← 포트폴리오 웹페이지 (🌐 Vercel로 이 폴더만 공개)
+│   ├── index.html          ← 브라우저로 바로 열리는 한 장짜리 페이지
+│   └── vercel.json         ← Vercel 배포 설정 (보안 헤더)
+│
+├── docs/                   ← 안내서
+│   └── vercel-배포가이드.md ← Vercel 배포 클릭 순서
 │
 ├── scripts/                ← 자동화 스크립트
 │   └── goyang_weather.py   ← 고양시 날씨·미세먼지 → weather.txt 저장
