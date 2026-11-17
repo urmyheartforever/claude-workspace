@@ -2,12 +2,12 @@
 
 ## 2026-11-17 — 방명록 Vercel 배포
 
-> 상태: 🔄 진행 중
-- [ ] 1. Vercel 환경변수 등록 (SUPABASE_URL, SUPABASE_ANON_KEY — production·preview)
-- [ ] 2. `portfolio/vercel.json`에 buildCommand(`node ../scripts/build-config.mjs`) 추가 → 배포 때 config.js 생성
-- [ ] 3. `guestbook` 브랜치 push → 미리보기 배포 빌드 로그 확인
-- [ ] 4. main 머지 → push → 실제 사이트 확인 (방명록 표시, config.js, 개인 파일 404)
-- [ ] 5. 기록
+> 상태: ✅ 완료 (실제 사이트에서 방명록 표시 확인)
+- [x] 1. Vercel 환경변수 등록 (SUPABASE_URL, SUPABASE_ANON_KEY — production·preview)
+- [x] 2. `portfolio/vercel.json`에 buildCommand(`node ../scripts/build-config.mjs`) 추가 → 배포 때 config.js 생성
+- [x] 3. `guestbook` 브랜치 push → 미리보기 배포 빌드 로그 확인
+- [x] 4. main 머지 → push → 실제 사이트 확인 (방명록 표시, config.js, 개인 파일 404)
+- [x] 5. 기록
 
 ## 2026-11-17 — 방명록 글 수정 (비밀번호 방식)
 

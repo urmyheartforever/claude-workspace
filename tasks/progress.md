@@ -65,3 +65,8 @@
   - 화면: 작성 폼에 비밀번호 칸, 글마다 [수정] → 그 자리에서 고치기 + 비밀번호 확인, "수정됨" 표시 (백업: index.html.guestbook-v1.bak)
   - 테스트: API(비밀번호 칸 조회 401, 직접 쓰기 401, 짧은 비밀번호 거절) + Edge 자동 조작 8개 PASS
   - DB에 테스트 글 남음: "테스트"(id 2), "E2E 테스트 2536" — 대시보드에서 삭제 가능
+- 방명록 Vercel 배포: https://claude-workspace-blush.vercel.app
+  - Vercel 환경변수 SUPABASE_URL·SUPABASE_ANON_KEY 등록 (production·preview, Secret)
+  - `portfolio/vercel.json`: buildCommand `node ../scripts/build-config.mjs` → 배포 때 config.js 생성
+  - `vercel link`로 폴더 연결 → `.vercel/` 생성, `.env.local`에 VERCEL_OIDC_TOKEN 추가됨, `.gitignore`에 `.env*` 추가됨 → `!.env.example` 보완
+  - 확인: 미리보기 빌드 로그 OK → main 머지(9fe336c) → 실제 사이트에서 방명록 목록 표시, config.js 200, 개인·설정 파일 404 (vercel.json만 200, 비밀 없음)
